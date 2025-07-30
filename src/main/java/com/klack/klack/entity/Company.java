@@ -1,30 +1,24 @@
 package com.klack.klack.entity;
 
-import com.klack.klack.enums.Role;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
-@Document(collection = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Users {
-
+@Document("company")
+public class Company {
     @Id
     private String id;
 
-    private String username;
-
-    private String email;
-
-    private String password;
-
-    private Role role;
-
-    private String companyId;
-
-
+    private String name;
+    private String ownerId;
+    private List<String> membersIds;
+    private LocalDateTime createdDate;
 }

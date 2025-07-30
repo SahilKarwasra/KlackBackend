@@ -6,7 +6,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("JWT Filter processing request: " + requestPath);
         
         // Skip JWT processing for auth endpoints
-        if (requestPath.startsWith("/api/auth/")) {
+        if (requestPath.startsWith("/api/auth/") || requestPath.startsWith("/api/company/")) {
             System.out.println("Skipping JWT filter for auth endpoint: " + requestPath);
             filterChain.doFilter(request, response);
             return;
