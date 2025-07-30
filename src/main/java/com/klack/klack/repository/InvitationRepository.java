@@ -1,0 +1,10 @@
+package com.klack.klack.repository;
+
+import com.klack.klack.entity.Invite;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.util.List;
+
+public interface InvitationRepository extends MongoRepository<Invite, String> {
+    List<Invite> findByInvitedUserIdAndAcceptedFalse(String userId);
+}
