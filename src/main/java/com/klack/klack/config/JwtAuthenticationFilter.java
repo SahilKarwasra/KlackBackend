@@ -1,7 +1,7 @@
 package com.klack.klack.config;
 
-import com.klack.klack.entity.Users;
-import com.klack.klack.repository.UserRepository;
+import com.klack.klack.auth.entity.Users;
+import com.klack.klack.auth.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

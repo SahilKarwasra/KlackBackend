@@ -1,6 +1,6 @@
 package com.klack.klack.config;
 
-import com.klack.klack.entity.Users;
+import com.klack.klack.auth.entity.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
