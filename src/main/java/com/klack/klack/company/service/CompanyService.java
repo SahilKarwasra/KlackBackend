@@ -45,6 +45,26 @@ public class CompanyService {
 
     }
 
+    public List<Users> findUsersInTheCompany(String companyId) {
+        Company company = companyRepo.findById(companyId).orElseThrow(
+                () -> new UsernameNotFoundException("Company not found")
+        );
+        List<String> membersIds = company.getMembersIds();
+        return userRepository.findAllById(membersIds);
+    }
+
+    public boolean isPartOfCompany(String userId, String companyId) {
+
+        System.out.println("Checking if the part of our company");
+        Company company = companyRepo.findById(companyId).orElseThrow(
+                () -> new UsernameNotFoundException("Company not found")
+        );
+        System.out.println("CompanyService: Company Id: " + companyId);
+
+        return company.getMembersIds().contains(userId);
+
+    }
+
 }
 
 

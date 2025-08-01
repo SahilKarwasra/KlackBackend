@@ -1,8 +1,8 @@
 package com.klack.klack.invitation.controller;
 
-import com.klack.klack.invitation.dto.InviteUserRequest;
+import com.klack.klack.invitation.dto.CompanyInviteUserRequest;
 import com.klack.klack.company.service.CompanyService;
-import com.klack.klack.invitation.service.InviteService;
+import com.klack.klack.invitation.service.CompanyInviteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/company/")
-public class InvitationController {
-    private final InviteService inviteService;
+public class CompanyInvitationController {
+    private final CompanyInviteService companyInviteService;
     private final CompanyService companyService;
 
     @PostMapping("invite")
     public ResponseEntity<?> invite(
-            @RequestBody InviteUserRequest inviteUserRequest,
+            @RequestBody CompanyInviteUserRequest companyInviteUserRequest,
             @RequestHeader("Authorization") String authHeader
     ) {
         String token = authHeader.substring(7);
-        inviteService.inviteUser(inviteUserRequest.getEmail(), token);
+        companyInviteService.inviteUser(companyInviteUserRequest.getEmail(), token);
         return ResponseEntity.ok("Invitation Sent");
     }
 
@@ -29,7 +29,7 @@ public class InvitationController {
             @RequestHeader("Authorization") String authHeader
     ) {
         String token = authHeader.substring(7);
-        inviteService.acceptInvite(token);
+        companyInviteService.acceptInvite(token);
         return ResponseEntity.ok("Congrats You Have Joined the Company");
     }
 

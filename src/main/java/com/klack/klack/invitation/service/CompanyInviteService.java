@@ -2,10 +2,10 @@ package com.klack.klack.invitation.service;
 
 import com.klack.klack.config.JwtUtils;
 import com.klack.klack.company.entity.Company;
-import com.klack.klack.invitation.entity.Invite;
+import com.klack.klack.invitation.entity.CompanyInvite;
 import com.klack.klack.auth.entity.Users;
 import com.klack.klack.company.repository.CompanyRepo;
-import com.klack.klack.invitation.repository.InvitationRepository;
+import com.klack.klack.invitation.repository.CompanyInvitationRepository;
 import com.klack.klack.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class InviteService {
-    private final InvitationRepository invitationRepository;
+public class CompanyInviteService {
+    private final CompanyInvitationRepository companyInvitationRepository;
     private final UserRepository userRepository;
     private final JwtUtils jwtUtils;
     private final CompanyRepo companyRepo;
@@ -40,26 +40,26 @@ public class InviteService {
             throw new RuntimeException("Users already belong to a company");
         }
 
-        Invite invite = Invite.builder()
+        CompanyInvite companyInvite = CompanyInvite.builder()
                 .companyId(owner.getCompanyId())
                 .invitedUserId(invitedUser.getId())
                 .accepted(false)
                 .build();
 
-        invitationRepository.save(invite);
+        companyInvitationRepository.save(companyInvite);
     }
 
     public void acceptInvite(String token) {
         String userId = jwtUtils.getUserIdFromToken(token);
 
-        List<Invite> companyInvites = invitationRepository.findByInvitedUserIdAndAcceptedFalse(userId);
-        if (companyInvites.isEmpty()) {
+        List<CompanyInvite> companyCompanyInvites = companyInvitationRepository.findByInvitedUserIdAndAcceptedFalse(userId);
+        if (companyCompanyInvites.isEmpty()) {
             throw new RuntimeException("No Invites...");
         }
 
-        Invite invite = companyInvites.getFirst();
+        CompanyInvite companyInvite = companyCompanyInvites.getFirst();
 
-        Company company = companyRepo.findById(invite.getCompanyId())
+        Company company = companyRepo.findById(companyInvite.getCompanyId())
                 .orElseThrow(() -> new RuntimeException("Company not found"));
 
         Users user = userRepository.findById(userId).get();
@@ -69,8 +69,8 @@ public class InviteService {
         company.getMembersIds().add(userId);
         companyRepo.save(company);
 
-        invite.setAccepted(true);
-        invitationRepository.save(invite);
+        companyInvite.setAccepted(true);
+        companyInvitationRepository.save(companyInvite);
 
     }
 }

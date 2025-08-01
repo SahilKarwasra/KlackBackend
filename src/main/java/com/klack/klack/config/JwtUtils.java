@@ -77,6 +77,7 @@ public class JwtUtils {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+        System.out.println("JwtUtils: User ID is: " + claims.get("id"));
         return claims.get("id", String.class);
     }
 
